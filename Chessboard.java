@@ -10,7 +10,7 @@ public class Chessboard{
         this.destY = destY;
     }
 
-    public boolean bounds(char destX , int destY){
+    public static boolean bounds(char destX , int destY){
 
         if((destX > 64 && destX < 73) || (destY > 0 && destY < 9)){
             return true;

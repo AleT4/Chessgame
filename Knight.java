@@ -1,18 +1,16 @@
 public class Knight {
-    public String color;
+    public PieceColor color;
     private char currentX;
     private int currentY;
-    public Chessboard piece;
 
-    public Knight(String color, char currentX, int currentY){
+    public Knight(PieceColor color, char currentX, int currentY){
         this.color = color;
         this.currentX = currentX;
         this.currentY = currentY;
-        this.piece = new Chessboard(color, currentX, currentY);
     }
     
     public boolean validMove(char targetX, int targetY){
-        if(this.piece.bounds(targetX, targetY)){
+        if(Chessboard.bounds(targetX, targetY)){
             if(this.currentY == targetY + 2 || this.currentY == targetY - 2 || this.currentX == targetX + 2 || this.currentX == targetX -2){
                 if(this.currentY == targetY + 1 || this.currentY == targetY - 1 || this.currentX == targetX + 1 || this.currentX == targetX -1){
                     return true;
@@ -20,11 +18,11 @@ public class Knight {
             }
         }return false;
     }
-    public void setColor(String color){
+    public void setColor(PieceColor color){
         this.color = color;
     }
 
-    public String getColor(){
+    public PieceColor getColor(){
         return this.color;
     }
 

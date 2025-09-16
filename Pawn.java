@@ -1,20 +1,18 @@
 public class Pawn {
-    public String color;
+    public PieceColor color;
     private char currentX;
     private int currentY;
-    public Chessboard piece;
 
-    public Pawn(String color, char currentX, int currentY){
+    public Pawn(PieceColor color, char currentX, int currentY){
         this.color = color;
         this.currentX = currentX;
         this.currentY = currentY;
-        this.piece = new Chessboard(color, currentX, currentY); 
     }
 
     public boolean validMove(char targetX, int targetY) {
-        if (this.piece.bounds(targetX, targetY)) {
+        if (Chessboard.bounds(targetX, targetY)) {
             if (this.currentX == targetX) {
-                if (this.color.equals("black")) {
+                if (this.color == PieceColor.BLACK) {
                     return targetY - this.currentY == -1;
                 } else { // white
                     return targetY - this.currentY == 1;
@@ -24,11 +22,11 @@ public class Pawn {
         return false;
     }
 
-    public void setColor(String color){
+    public void setColor(PieceColor color){
         this.color = color;
     }
 
-    public String getColor(){
+    public PieceColor getColor(){
         return this.color;
     }
 

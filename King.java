@@ -1,20 +1,18 @@
 public class King {
-    public String color;
+    public PieceColor color;
     private char currentX;
     private int currentY;
-    public Chessboard piece;
 
-    public King(String color, char currentX, int currentY){
+    public King(PieceColor color, char currentX, int currentY){
         this.color = color;
         this.currentX = currentX;
         this.currentY = currentY;
-        this.piece = new Chessboard(color, currentX, currentY);
     }
     
     public boolean validMove(char targetX, int targetY){
         int temp = charConversion(targetX);
         int temp2 = charConversion(this.currentX);
-        if(this.piece.bounds(targetX, targetY)){
+        if(Chessboard.bounds(targetX, targetY)){
             if(Math.abs(temp - temp2) == 1 || Math.abs(targetY - this.currentY) == 1){
                 return true;
             }
@@ -42,11 +40,11 @@ public class King {
         }return -1;
     }
 
-        public void setColor(String color){
+    public void setColor(PieceColor color){
         this.color = color;
     }
 
-    public String getColor(){
+    public PieceColor getColor(){
         return this.color;
     }
 

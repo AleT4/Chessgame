@@ -1,3 +1,22 @@
+/* Assignment’s title: Lab2 Chess and Objects
+   Student’s name: Alejandra Acevedo, Deniss Garcia, Luis Fierro, Marco Alvarez
+
+   Description: 
+   The program checks whether a selected chess piece can move from its current position
+   to a target position. The program prompts the user for the piece type, color, 
+   and starting coordinates, then asks for a destination. It validates the move, provides 
+   feedback if it’s invalid, and gives the user the option to try another move or pick 
+   a new piece.
+
+   Change Log:
+   [09/13/2025] Pseudocode created by the entire team
+   [09/14/2025] Classes created by the entire team 
+   [09/15/2025] Marco and Luis work in the main method 
+   [09/15/2025] Ale and Marco work in the test cases
+   [09/15/2025] Deniss work in the description 
+   [09/16/2025] Ale implemented Enums on code
+*/
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -10,28 +29,54 @@ public class ChessGame {
             char currentX = 'A';
             char targetX = 'A';
             boolean done = true;
-            String color = "";
+            PieceColor colorEnum = null;
+            ChessPiece pieceEnum = null;
 
+            //ask user to select a piece
             System.out.println("Which piece would you like to use? (Pawn, Rook, Bishop, Knight, Queen, King)");
-            String pieceName = userInput.nextLine().trim().toLowerCase();
-
-
+            String pieceName = userInput.nextLine().trim().toUpperCase();
             
+            // ----------- CONVERT STRING INPUT TO CHESSPIECE ENUM ----
+            switch(pieceName){
+                case "PAWN":
+                    pieceEnum = ChessPiece.PAWN;
+                    break;
+                case "ROOK":
+                    pieceEnum = ChessPiece.ROOK;
+                    break;
+                case "BISHOP":
+                    pieceEnum = ChessPiece.BISHOP;
+                    break;
+                case "KNIGHT":
+                    pieceEnum = ChessPiece.KNIGHT;
+                    break;
+                case "QUEEN":
+                    pieceEnum = ChessPiece.QUEEN;
+                    break;
+                case "KING":
+                    pieceEnum = ChessPiece.KING;
+                    break;
+                default:
+                    System.out.println("Invalid piece name. Try again.");
+                    continue;
+            }
+            //ask user to select a color and use PieceColor enum
             while(done){
-            System.out.println("Which color would you like to use? (Black or White)");
-            String pieceColor = userInput.nextLine().trim().toLowerCase();
-            if(pieceColor.equals("white") || pieceColor.equals("black")){
-                color = pieceColor;
-                done = false;
-            }
-            else{
-                System.out.println("Invaid input. enter the color White or Black");
-            }
+                System.out.println("Which color would you like to use? (Black or White)");
+                String pieceColor = userInput.nextLine().trim().toUpperCase();
+                if(pieceColor.equals("WHITE")){
+                    colorEnum = PieceColor.WHITE; // ---- CHANGE STRING TO ENUM ----
+                    done = false;
+                } else if(pieceColor.equals("BLACK")){
+                    colorEnum = PieceColor.BLACK; // ---- CHANGE STRING TO ENUM ----
+                    done = false;
+                } else {
+                    System.out.println("Invalid input. Enter White or Black.");
+                }
             }
 
             done = true;
             // ---- Ask for starting position ----
-
             while(done){
                 System.out.println("Enter starting X (A to H):");
                 String checkDesX = userInput.nextLine().trim().toUpperCase();
@@ -51,45 +96,45 @@ public class ChessGame {
             done = true;
             int currentY = 0;
             while(done){
-            System.out.println("Enter starting Y (1 to 8):");
-            int tempY = 0;
-            try {
-                tempY = userInput.nextInt();
-                if(tempY > 0 && tempY < 9){
-                    currentY = tempY;
-                    done = false; //exit loop
+                System.out.println("Enter starting Y (1 to 8):");
+                int tempY = 0;
+                try {
+                    tempY = userInput.nextInt();
+                    if(tempY > 0 && tempY < 9){
+                        currentY = tempY;
+                        done = false; //exit loop
+                    }
+                    else{
+                        System.out.println("Invalid input. Starting x must be between 1 to 8");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number 1 to 8.");
+                    userInput.nextLine(); // clear buffer
+                    continue;
                 }
-                else{
-                    System.out.println("Invalid input. Starting x must be between 1 to 8");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number 1 to 8.");
-                userInput.nextLine(); // clear buffer
-                continue;
             }
-        }
             userInput.nextLine(); // consume newline
 
             // ---- Create chosen piece ----
             Object piece = null;
-            switch (pieceName) {
-                case "pawn":
-                    piece = new Pawn(color, currentX, currentY);
+            switch (pieceEnum) {
+                case PAWN:
+                    piece = new Pawn(colorEnum, currentX, currentY);
                     break;
-                case "rook":
-                    piece = new Rook(color, currentX, currentY);
+                case ROOK:
+                    piece = new Rook(colorEnum, currentX, currentY);
                     break;
-                case "bishop":
-                    piece = new Bishop(color, currentX, currentY);
+                case BISHOP:
+                    piece = new Bishop(colorEnum, currentX, currentY);
                     break;
-                case "knight":
-                    piece = new Knight(color, currentX, currentY);
+                case KNIGHT:
+                    piece = new Knight(colorEnum, currentX, currentY);
                     break;
-                case "queen":
-                    piece = new Queen(color, currentX, currentY);
+                case QUEEN:
+                    piece = new Queen(colorEnum, currentX, currentY);
                     break;
-                case "king":
-                    piece = new King(color, currentX, currentY);
+                case KING:
+                    piece = new King(colorEnum, currentX, currentY);
                     break;
                 default:
                     System.out.println("Invalid piece name. Try again.");
@@ -117,31 +162,30 @@ public class ChessGame {
                 } else {
                     System.out.println("Invalid input. Please enter a single character (A to H).");
                 }
-            }
-
-            // Ask destination Y
-            done = true;
-            
-            while(done){
-            System.out.println("Enter starting Y (1 to 8):");
-            int tempY = 0;
-            try {
-                tempY = userInput.nextInt();
-                if(tempY > 0 && tempY < 9){
-                    targetY = tempY;
-                    done = false; //exit loop
                 }
-                else{
-                    System.out.println("Invalid input. Starting x must be between 1 to 8");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number 1 to 8.");
-                userInput.nextLine(); // clear buffer
-                continue;
-            }
-        }
-
+                // Ask destination Y
+                done = true;
                 
+                while(done){
+                    System.out.println("Enter starting Y (1 to 8):");
+                    int tempY = 0;
+                    try {
+                        tempY = userInput.nextInt();
+                        if(tempY > 0 && tempY < 9){
+                            targetY = tempY;
+                            done = false; //exit loop
+                        }
+                        else{
+                            System.out.println("Invalid input. Starting x must be between 1 to 8");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a number 1 to 8.");
+                        userInput.nextLine(); // clear buffer
+                        continue;
+                    }
+                }
+                userInput.nextLine(); 
+
                 boolean valid = false;
                 if (piece instanceof Pawn) {
                     valid = ((Pawn) piece).validMove(targetX, targetY);
@@ -158,14 +202,13 @@ public class ChessGame {
                 }
 
                 if (valid) {
-                    System.out.println(pieceName + " at " + currentX + currentY +
+                    System.out.println(pieceEnum + " at " + currentX + currentY +
                             " can move to " + targetX + targetY);
                 } else {
-                    System.out.println(pieceName + " at " + currentX + currentY +
+                    System.out.println(pieceEnum + " at " + currentX + currentY +
                             " cannot move to " + targetX + targetY);
                 }
                 
-                userInput.nextLine();
                 // Continue with same piece?
                 while(!done){
                     System.out.println("Do you want to continue with this piece at location (" + currentX + ", " + currentY + ") ? (Y/N)");

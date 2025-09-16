@@ -1,21 +1,18 @@
 public class Queen{
 
-    public String color;
+    public PieceColor color;
     private char currentX;
     private int currentY;
-    public Chessboard piece;
 
-    public Queen(String color, char currentX, int currentY){
+    public Queen(PieceColor color, char currentX, int currentY){
         this.color = color;
         this.currentX = currentX;
         this.currentY = currentY;
-        this.piece = new Chessboard(color, currentX, currentY); 
-
     }
 
     public boolean validMove(char targetX, int targetY) {   
         // Check bounds first
-        if (!piece.bounds(targetX, targetY)) return false;
+        if (!Chessboard.bounds(targetX, targetY)) return false;
 
         int tempCurrentX = charConversion(this.currentX);
         int tempTargetX = charConversion(targetX);
@@ -54,11 +51,11 @@ public class Queen{
                 return 8;           
         }return -1;
     }
-    public void setColor(String color){
+    public void setColor(PieceColor color){
         this.color = color;
     }
 
-    public String getColor(){
+    public PieceColor getColor(){
         return this.color;
     }
 
