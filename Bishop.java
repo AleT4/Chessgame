@@ -1,5 +1,5 @@
 public class Bishop {
-    public String color;
+    public PieceColor color;
     private char currentX;
     private int currentY;
     public Chessboard piece;
